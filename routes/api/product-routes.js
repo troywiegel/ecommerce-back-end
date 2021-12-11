@@ -1,18 +1,41 @@
 const router = require('express').Router()
+const { json } = require('express/lib/response')
 const { Product, Category, Tag, ProductTag } = require('../../models')
+const { findAll } = require('../../models/Product')
 
 // The `/api/products` endpoint
 
 // get all products
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
+  try {
+    const allProducts = await Product.findAll({
+      include: [{ model: Category, Tag }]
+    })
+    res.status(200).json(allProducts)
+  } catch (err) {
+    res.status(500).json(err)
+  }
 })
 
 // get one product
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+  try {
+    const singleProduct = await findAll({
+      where: { id: req.params.id },
+      include: [{ model: Category, Tag }]
+    })
+    if (!singleProduct) {
+      res.status(404).json({ message: `${singleProduct} does not exist in the database!` })
+      return
+    }
+    res.status(200).json(singleProduct)
+  } catch (err) {
+    res.status(500).json(err)
+  }
 })
 
 // create new product
@@ -89,8 +112,22 @@ router.put('/:id', (req, res) => {
     })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
+  try {
+    const destroyProduct = await Product.destroy(
+      {
+        where: { id: req.params.id }
+      }
+    )
+    if (!destroyProduct) {
+      res.status(404).json({ message: `${destroyProduct} does not exist in the database!` })
+      return
+    }
+    res.status(200).json(`${destroyProduct} was removed from the database!`)
+  } catch (err) {
+    res.status(500).json(err)
+  }
 })
 
 module.exports = router

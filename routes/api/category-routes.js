@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   // be sure to include its associated Products
   try {
     const allCategories = await Category.findAll({
-      include: [{ model: Product }],
+      include: [{ model: Product }]
     })
     res.status(200).json(allCategories)
   } catch (err) {
@@ -21,17 +21,13 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Products
   try {
     const singleCategory = await Category.findAll({
-      where: {
-        id: req.params.id
-      },
+      where: { id: req.params.id },
       include: [{ model: Product }]
     })
-
     if (!singleCategory) {
       res.status(404).json({ message: `${singleCategory} does not exist in the database!` })
       return
     }
-
     res.status(200).json(singleCategory)
   } catch (err) {
     res.status(500).json(err)
@@ -56,12 +52,10 @@ router.put('/:id', async (req, res) => {
         where: { id: req.params.id }
       }
     )
-
     if (!editCategory) {
       res.status(404).json({ message: `${editCategory} does not exist in the database!` })
       return
     }
-
     res.status(200).json(editCategory)
   } catch (err) {
     res.status(500).json(err)
@@ -76,12 +70,10 @@ router.delete('/:id', async (req, res) => {
         where: { id: req.params.id }
       }
     )
-
     if (!destroyCategory) {
       res.status(404).json({ message: `${destroyCategory} does not exist in the database!` })
       return
     }
-
     res.status(200).json(`${destroyCategory} was removed from the database!`)
   } catch (err) {
     res.status(500).json(err)
