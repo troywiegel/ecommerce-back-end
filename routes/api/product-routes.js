@@ -24,7 +24,7 @@ router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
   try {
-    const singleProduct = await findAll({
+    const singleProduct = await Product.findAll({
       where: { id: req.params.id },
       include: [{ model: Category, Tag }]
     })
@@ -34,6 +34,7 @@ router.get('/:id', async (req, res) => {
     }
     res.status(200).json(singleProduct)
   } catch (err) {
+    console.log('single product err!!', err)
     res.status(500).json(err)
   }
 })
