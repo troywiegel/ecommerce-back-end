@@ -20,12 +20,11 @@ router.get('/:id', async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   try {
-    const singleCategory = await Category.findAll({
-      where: { id: req.params.id },
+    const singleCategory = await Category.findByPk(req.params.id, {
       include: [{ model: Product }]
     })
     if (!singleCategory) {
-      res.status(404).json({ message: `${singleCategory} does not exist in the database!` })
+      res.status(404).json({ message: 'Category does not exist in the database!' })
       return
     }
     res.status(200).json(singleCategory)
@@ -53,7 +52,7 @@ router.put('/:id', async (req, res) => {
       }
     )
     if (!editCategory) {
-      res.status(404).json({ message: `${editCategory} does not exist in the database!` })
+      res.status(404).json({ message: 'Category does not exist in the database!' })
       return
     }
     res.status(200).json(editCategory)
@@ -69,10 +68,10 @@ router.delete('/:id', async (req, res) => {
       { where: { id: req.params.id } }
     )
     if (!destroyCategory) {
-      res.status(404).json({ message: `${destroyCategory} does not exist in the database!` })
+      res.status(404).json({ message: 'Category does not exist in the database!' })
       return
     }
-    res.status(200).json(`${destroyCategory} was removed from the database!`)
+    res.status(200).json({ message: 'Category was removed from the database!' })
   } catch (err) {
     res.status(500).json(err)
   }
