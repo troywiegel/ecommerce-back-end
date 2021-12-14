@@ -10,6 +10,10 @@ router.get('/', async (req, res) => {
     const allTags = await Tag.findAll({
       include: [{ model: Product }]
     })
+    if (!allTags) {
+      res.status(404).json({ message: `Database is empty!` })
+      return
+    }
     res.status(200).json(allTags)
   } catch (err) {
     res.status(500).json(err)
@@ -24,7 +28,7 @@ router.get('/:id', async (req, res) => {
       include: [{ model: Product }]
     })
     if (!singleTag) {
-      res.status(404).json({ message: `${singleTag} does not exist in the database!` })
+      res.status(404).json({ message: `Tag does not exist in the database!` })
       return
     }
     res.status(200).json(singleTag)
@@ -52,7 +56,7 @@ router.put('/:id', async (req, res) => {
       }
     )
     if (!editTag) {
-      res.status(404).json({ message: `${editTag} does not exist in the database!` })
+      res.status(404).json({ message: `Tag does not exist in the database!` })
       return
     }
     res.status(200).json(editTag)
@@ -68,10 +72,10 @@ router.delete('/:id', async (req, res) => {
       where: { id: req.params.id }
     })
     if (!destroyTag) {
-      res.status(404).json({ message: `${destroyTag} does not exist in the database!` })
+      res.status(404).json({ message: `Tag does not exist in the database!` })
       return
     }
-    res.status(200).json(destroyTag)
+    res.status(200).json({ message: `Tag was removed from the database!` })
   } catch (err) {
     res.status(500).json(err)
   }

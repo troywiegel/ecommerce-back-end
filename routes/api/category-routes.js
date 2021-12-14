@@ -10,6 +10,10 @@ router.get('/', async (req, res) => {
     const allCategories = await Category.findAll({
       include: [{ model: Product }]
     })
+    if (!allCategories) {
+      res.status(404).json({ message: `Database is empty!` })
+      return
+    }
     res.status(200).json(allCategories)
   } catch (err) {
     res.status(500).json(err)

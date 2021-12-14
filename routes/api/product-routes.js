@@ -12,6 +12,10 @@ router.get('/', async (req, res) => {
     const allProducts = await Product.findAll({
       include: [{ model: Category }, { model: Tag }]
     })
+    if (!allProducts) {
+      res.status(404).json({ message: `Database is empty!` })
+      return
+    }
     res.status(200).json(allProducts)
   } catch (err) {
     res.status(500).json(err)
@@ -27,7 +31,7 @@ router.get('/:id', async (req, res) => {
       include: [{ model: Category }, { model: Tag }]
     })
     if (!singleProduct) {
-      res.status(404).json({ message: `${singleProduct} does not exist in the database!` })
+      res.status(404).json({ message: `Product does not exist in the database!` })
       return
     }
     res.status(200).json(singleProduct)
@@ -120,10 +124,10 @@ router.delete('/:id', async (req, res) => {
       }
     )
     if (!destroyProduct) {
-      res.status(404).json({ message: `${destroyProduct} does not exist in the database!` })
+      res.status(404).json({ message: `Product does not exist in the database!` })
       return
     }
-    res.status(200).json(`${destroyProduct} was removed from the database!`)
+    res.status(200).json({ message: `Product was removed from the database!` })
   } catch (err) {
     res.status(500).json(err)
   }
