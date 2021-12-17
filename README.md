@@ -6,6 +6,8 @@
 ## Description
 This is an e-commerce backend created using Nodejs, Expressjs and MySQL/Sequelizer. One can create, read, update and delete entries from the database through Expressjs RESTful CRUD routes.
 
+https://user-images.githubusercontent.com/37552547/146475934-684191fd-7022-417f-bd95-78609bb469b8.mp4
+
 <br><br>
                         
 ## Table of Contents
