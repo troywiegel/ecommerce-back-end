@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
   // create a new tag
   try {
     const createTag = await Tag.create(req.body)
-    res.status(200).json(createTag)
+    res.status(200).json({ message: `Success! Tag was created in the database.` })
   } catch (err) {
     res.status(500).json(err)
   }
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res) => {
       res.status(404).json({ message: `Tag does not exist in the database!` })
       return
     }
-    res.status(200).json(editTag)
+    res.status(200).json({ message: `Success! Tag was edited in the database.` })
   } catch (err) {
     res.status(500).json(err)
   }
